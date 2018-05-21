@@ -41,10 +41,10 @@ namespace laser_odometry
   protected:
 
     Scalar kf_dist_angular_;
-    Scalar kf_dist_linear_sq_;
+    Scalar kf_dist_linear_x_;
+    Scalar kf_dist_linear_y_;
 
     Scalar estimated_overlap_th_;
-    Scalar match_ratio_th_;
 
     Matcher::ICP icp_;
 

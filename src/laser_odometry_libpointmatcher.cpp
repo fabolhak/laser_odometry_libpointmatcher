@@ -39,13 +39,11 @@ bool LaserOdometryLibPointMatcher::configureImpl()
     icp_.setDefault();
   }
 
-  Scalar kf_dist_linear;
-  kf_dist_linear        = private_nh_.param("dist_threshold",    0.3);
-  kf_dist_angular_      = private_nh_.param("rot_threshold",     0.17);
-  estimated_overlap_th_ = private_nh_.param("overlap_threshold", 0.65);
-  match_ratio_th_       = private_nh_.param("ratio_threshold",   0.65);
+  kf_dist_linear_x_     = private_nh_.param("kf_dist_linear_x",  0.3);
+  kf_dist_linear_y_     = private_nh_.param("kf_dist_linear_y",  0.3);
+  kf_dist_angular_      = private_nh_.param("kf_dist_angular",   0.17);
+  estimated_overlap_th_ = private_nh_.param("kf_overlap",        0.65);
 
-  kf_dist_linear_sq_ = kf_dist_linear * kf_dist_linear;
 
   return true;
 }
@@ -152,25 +150,34 @@ bool LaserOdometryLibPointMatcher::initialize(const sensor_msgs::PointCloud2Cons
 
 bool LaserOdometryLibPointMatcher::isKeyFrame(const Transform& tf)
 {
+
   if (std::abs(utils::getYaw(tf.rotation())) > kf_dist_angular_)
   {
-    ROS_DEBUG_STREAM("Angular key-frame: " << std::abs(utils::getYaw(tf.rotation())));
-    return true;
+    ROS_WARN_STREAM("Yaw too big. Max allowed: " << kf_dist_angular_ << " actual: " << std::abs(utils::getYaw(tf.rotation())));
+    return false;
   }
 
-  if (tf.translation().squaredNorm() > kf_dist_linear_sq_)
+  if (std::fabs(static_cast<float>(tf.translation()(0))) > kf_dist_linear_x_)
   {
-    ROS_DEBUG_STREAM("Linear key-frame: " << tf.translation().squaredNorm());
-    return true;
+    ROS_WARN_STREAM("X-dist too big. Max allowed: " << kf_dist_linear_x_ << " actual: " << std::fabs(static_cast<float>(tf.translation()(0))));
+    return false;
+  }
+
+  if (std::fabs(static_cast<float>(tf.translation()(1))) > kf_dist_linear_y_)
+  {
+      ROS_WARN_STREAM("Y-dist too big. Max allowed: " << kf_dist_linear_y_ << " actual: " << std::fabs(static_cast<float>(tf.translation()(1))));
+    return false;
   }
 
   if (icp_.errorMinimizer->getOverlap() < estimated_overlap_th_)
   {
-    ROS_DEBUG_STREAM("Overlap key-frame: " << icp_.errorMinimizer->getOverlap());
-    return true;
+    ROS_WARN_STREAM("Overlap key-frame: " << icp_.errorMinimizer->getOverlap());
+    return false;
   }
 
-  return false;
+  ROS_INFO_STREAM("This looks like a good keyframe!");
+
+  return true;
 }
 
 OdomType LaserOdometryLibPointMatcher::odomType() const noexcept

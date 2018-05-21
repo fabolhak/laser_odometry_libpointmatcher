@@ -1,0 +1,25 @@
+### This file was generated using the rosparam_handler generate_yaml script.
+
+# Name:	kf_dist_linear_x
+# Desc:	Maximum linear displacement in x direction between scans
+# Type:	double
+# [min,max]:	[0/2]
+kf_dist_linear_x: 0.5
+
+# Name:	kf_dist_linear_y
+# Desc:	Maximum linear displacement in y direction between scans
+# Type:	double
+# [min,max]:	[0/2]
+kf_dist_linear_y: 0.05
+
+# Name:	kf_dist_angular
+# Desc:	Maximum angular displacement between scans.
+# Type:	double
+# [min,max]:	[0/6.28]
+kf_dist_angular: 0.5
+
+# Name:	kf_overlap
+# Desc:	Minimum scans overlap for key-frame creation.
+# Type:	double
+# [min,max]:	[0/1]
+kf_overlap: 0.30
