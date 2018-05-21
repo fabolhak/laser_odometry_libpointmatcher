@@ -11,7 +11,4 @@ description="Maximum angular displacement between scans.")
 gen.add("kf_overlap", paramtype="double", default=0.85, min=0, max=1, configurable=True,
 description="Minimum scans overlap for key-frame creation.")
 
-gen.add("match_ratio", paramtype="double", default=0.65, min=0, max=1, configurable=True,
-description="Minimum number of matches for key-frame creation.")
-
 exit(gen.generate("laser_odometry_libpointmatcher", "LaserOdometryLibPointMatcher", "LaserOdometryLibPointMatcher"))
