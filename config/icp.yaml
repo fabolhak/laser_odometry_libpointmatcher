@@ -1,14 +1,26 @@
 readingDataPointsFilters:
+  - RemoveNaNDataPointsFilter
   - MinDistDataPointsFilter:
       dim: -1
       minDist: 1.0
-  - RemoveNaNDataPointsFilter
+  - BoundingBoxDataPointsFilter:
+      xMin: -1
+      xMax: 15
+      yMin: -10
+      yMax: 10
+      removeInside: 0
 
 referenceDataPointsFilters:
+  - RemoveNaNDataPointsFilter
   - MinDistDataPointsFilter:
       dim: -1
       minDist: 1.0
-  - RemoveNaNDataPointsFilter
+  - BoundingBoxDataPointsFilter:
+      xMin: -1
+      xMax: 15
+      yMin: -10
+      yMax: 10
+      removeInside: 0
 
 matcher:
   KDTreeMatcher:
@@ -27,7 +39,7 @@ transformationCheckers:
   - DifferentialTransformationChecker:
       minDiffRotErr: 0.001
       minDiffTransErr: 0.01
-      smoothLength: 4
+      smoothLength: 2
 
 inspector:
   NullInspector
