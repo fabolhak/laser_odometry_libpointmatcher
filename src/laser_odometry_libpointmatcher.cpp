@@ -97,7 +97,7 @@ bool LaserOdometryLibPointMatcher::icp(const DataPointsPtr& src_cloud,
 //    ROS_ERROR_STREAM("icp_.errorMinimizer->getCovariance()\n"
 //                     << icp_.errorMinimizer->getCovariance());
 
-//    increment_covariance_ = icp_.errorMinimizer->getCovariance();
+    increment_covariance_ = icp_.errorMinimizer->getCovariance();
 
     assert(increment_covariance_.rows()==6 &&
            increment_covariance_.cols()==6);
