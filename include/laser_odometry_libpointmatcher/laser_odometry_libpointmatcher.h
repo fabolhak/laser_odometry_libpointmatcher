@@ -33,6 +33,7 @@ namespace laser_odometry
              const Transform& prediction);
 
     void isKeyFrame() override;
+    void isNotKeyFrame() override;
 
   public:
 

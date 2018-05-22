@@ -118,6 +118,13 @@ void LaserOdometryLibPointMatcher::isKeyFrame()
 //  Matcher::swapDataPoints(*ref_cloud_, *source_cloud_);
 }
 
+void LaserOdometryLibPointMatcher::isNotKeyFrame()
+{
+  /// @todo what's best?
+  std::swap(ref_cloud_, source_cloud_);
+//  Matcher::swapDataPoints(*ref_cloud_, *source_cloud_);
+}
+
 bool LaserOdometryLibPointMatcher::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg)
 {
   convert<sensor_msgs::LaserScan>(scan_msg, ref_cloud_);
